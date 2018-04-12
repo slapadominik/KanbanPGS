@@ -8,7 +8,7 @@ namespace Pgs.Kanban.Domain
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=PgsKanban;AttachDbFileName=C:\Users\Michal Walczynski\AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances\mssqllocaldb\PgsKanban.mdf;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=pgskanban;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         }
 
         public DbSet<Board> Boards { get; set; } 

@@ -38,5 +38,27 @@ namespace Pgs.Kanban.Domain.Services
 
             return listDto;
         }
+
+        public bool EditListName(EditListNameDto editListNameDto)
+        {
+            if (!_context.Boards.Any(x => x.Id == editListNameDto.BoardId))
+            {
+                return false;
+            }
+
+            var list = _context.Lists.SingleOrDefault(l => l.Id == editListNameDto.ListId);
+            if (list == null || list.Name == editListNameDto.Name)
+            {
+                return false;
+            }
+
+            list.Name = editListNameDto.Name;
+            //edytowanie obiektow z bazy danych mozna updatowac w ten sposob, ze pobieramy obiekt z contextu
+            //nastepnie zmieniamy tylko property ktore chcemy zmienic i robimy saveChanges na 
+            var result = _context.SaveChanges();
+
+            return result > 0;
+
+        }
     }
 }

@@ -42,5 +42,7 @@ namespace Pgs.Kanban.Api.Controllers
             var result = _boardService.CreateBoard(createBoardDto);
             return Ok(result);
         }
+
+        
     }
 }

@@ -31,6 +31,24 @@ namespace Pgs.Kanban.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public IActionResult EditListName([FromBody] EditListNameDto editListNameDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var result = _listService.EditListName(editListNameDto);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
     }
 }
 
