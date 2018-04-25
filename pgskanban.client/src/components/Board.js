@@ -18,6 +18,7 @@ class Board extends React.Component{
         }
     }
 
+
     componentDidMount(){
         axios.get(BASE_URL+ '/board').then((response) => {
             console.log(response);
@@ -33,8 +34,23 @@ class Board extends React.Component{
 
     renderLists = () => {
         return this.state.boardData.map((list) => 
-            <List key={list.id} boardId={this.state.boardId} listId={list.id} listName={list.name} cards={[]}/>
+            <List key={list.id} boardId={this.state.boardId} listId={list.id} listName={list.name} cards={list.cards} deleteList={this.deleteList}/>
         );
+    }
+
+    getCardsExceptCardWithSpecifedId = (id) => {
+        return this.state.boardData.filter(card => card.id !== id);
+    }
+    deleteList = (id) => {
+        return axios.delete(BASE_URL+"/list", {
+            params: {listId: id}
+        })
+        .then(response => {
+            this.setState({ boardData: this.getCardsExceptCardWithSpecifedId(id)});
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     onChangeListName = (e) => {
@@ -45,6 +61,7 @@ class Board extends React.Component{
         e.preventDefault();
         axios.post(BASE_URL+"/list", {boardid: this.state.boardId, name: this.state.listName})
             .then(response => {
+                console.log(response);
                 this.setState(prevState => {
                     return {
                         boardData: [...prevState.boardData, response.data],

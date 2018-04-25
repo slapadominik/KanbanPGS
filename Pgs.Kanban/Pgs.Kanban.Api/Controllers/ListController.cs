@@ -39,14 +39,27 @@ namespace Pgs.Kanban.Api.Controllers
             {
                 return BadRequest();
             }
-
             var result = _listService.EditListName(editListNameDto);
-
             if (!result)
             {
                 return BadRequest();
             }
+            return NoContent();
+        }
 
+        [HttpDelete]
+        public IActionResult DeleteListName(DeleteListDto deleteListDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            bool deleteSuccessful = _listService.DeleteList(deleteListDto);
+            if (!deleteSuccessful)
+            {
+                return BadRequest();
+            }
             return NoContent();
         }
     }

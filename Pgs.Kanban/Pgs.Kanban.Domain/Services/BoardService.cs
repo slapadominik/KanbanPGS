@@ -21,6 +21,7 @@ namespace Pgs.Kanban.Domain.Services
         {
             var board = _context.Boards
                 .Include(b => b.Lists)
+                .ThenInclude(x => x.Cards)
                 .LastOrDefault();
 
             if (board == null)
@@ -36,10 +37,15 @@ namespace Pgs.Kanban.Domain.Services
                 {
                     Id = l.Id,
                     BoardId = l.BoardId,
-                    Name = l.Name
-                }).ToList()
+                    Name = l.Name,
+                    Cards = l.Cards.Select(x => new CardDto()
+                    {
+                        CardId = x.CardId,
+                        CardName = x.CardName,
+                        ListId = x.ListId
+                    }).ToList()
+                }).ToList(),
             };
-
             return boardDto;
         }
 

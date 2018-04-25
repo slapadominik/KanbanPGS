@@ -45,20 +45,28 @@ namespace Pgs.Kanban.Domain.Services
             {
                 return false;
             }
-
             var list = _context.Lists.SingleOrDefault(l => l.Id == editListNameDto.ListId);
             if (list == null || list.Name == editListNameDto.Name)
             {
                 return false;
             }
-
             list.Name = editListNameDto.Name;
             //edytowanie obiektow z bazy danych mozna updatowac w ten sposob, ze pobieramy obiekt z contextu
             //nastepnie zmieniamy tylko property ktore chcemy zmienic i robimy saveChanges na 
             var result = _context.SaveChanges();
-
             return result > 0;
+        }
 
+        public bool DeleteList(DeleteListDto deleteListDto)
+        {
+            var list = _context.Lists.SingleOrDefault(l => l.Id == deleteListDto.ListId);
+            if (list == null)
+            {
+                return false;
+            }
+            _context.Lists.Remove(list);
+            _context.SaveChanges();
+            return true;
         }
     }
 }
